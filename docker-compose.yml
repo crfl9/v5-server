@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: v5-mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: v5
+      MYSQL_DATABASE: v5
+    expose:
+      - 3306
+    ports:
+      - '3306:3306'
+    command: --default-authentication-plugin=mysql_native_password --innodb_use_native_aio=0
+    volumes:
+      - ./mysql/data/mysql:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+  redis:
+    image: redis
+    container_name: v5-redis
+    ports:
+      - 6379:6379
+  zookeeper:
+    image: wurstmeister/zookeeper
+    volumes:
+      - ./zk/data:/data
+    ports:
+      - 2181:2181
